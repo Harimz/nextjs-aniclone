@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Overpass } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/navigation/navbar";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Footer } from "./(landing)/_components/footer";
+import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const overpass = Overpass({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +20,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          "bg-primary-background dark:bg-dark-background",
+          overpass.className
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster position="top-center" />
+
+          <Navbar />
+
+          {children}
+
+          <Footer />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
